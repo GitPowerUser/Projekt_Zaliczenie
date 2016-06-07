@@ -5,9 +5,9 @@ int main()
 {
 
     char openpath[50]="test.txt.txt";
-    //printf("Podaj droge do pliku\n");
-    //gets(openpath);
-    //printf("%s\n",openpath);
+    printf("Podaj òcieæk© do pliku\n");
+    gets(openpath);
+    printf("%s\n",openpath);
     pobierz_dane(openpath);
 
     return 0;
@@ -20,19 +20,19 @@ pobierz_dane(char *nazwa)
     char ch[500][50];
     double tablica[200][6]; /*
                             0 - POLE
-                            1 - OBW”D
-                            2 - åRODEK X
-                            3 - åRODEK Y
-                            4 - CIE— X
-                            5 - CIE— Y
-                            6 - ROZPI TOå∆
+                            1 - OBW‡D
+                            2 - óRODEK X
+                            3 - óRODEK Y
+                            4 - CIEN X
+                            5 - CIEN Y
+                            6 - ROZPI®TOóè
                             */
 
     FILE *fp;
     fp=fopen(nazwa,"r");
     if(fp==NULL)
     {
-        printf("Blond otwarcia pliku");
+        printf("Bà•d otwarcia pliku");
         return 0;
     }
 

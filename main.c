@@ -1,32 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
-int pobierz_dane(char *nazwa);
+
+typedef struct
+{
+    float pole;
+    float obwod;
+    float midx;
+    float midy;
+    float cienx;
+    float cieny;
+    float rozpietosc;
+
+} dane;
+
+int pobierz_dane(char *nazwa, dane *wynik);
 int main()
 {
 
     char openpath[50]="test.txt.txt";
+    dane wynik[50];
     printf("Podaj òcieæk© do pliku\n");
     gets(openpath);
     printf("%s\n",openpath);
-    pobierz_dane(openpath);
+    pobierz_dane(openpath, wynik);
+
 
     return 0;
 }
 
 
-pobierz_dane(char *nazwa)
+pobierz_dane(char *nazwa, dane *wynik)
 {
+    dane record[30];
     int i=0;
-    char ch[500][50];
-    double tablica[200][6]; /*
-                            0 - POLE
-                            1 - OBW‡D
-                            2 - óRODEK X
-                            3 - óRODEK Y
-                            4 - CIEN X
-                            5 - CIEN Y
-                            6 - ROZPI®TOóè
-                            */
+    int j,licznik=0;
+    char lyne [121];
+    char *item;
+    int k;
+    int reccount = 0;
 
     FILE *fp;
     fp=fopen(nazwa,"r");
@@ -37,27 +48,37 @@ pobierz_dane(char *nazwa)
     }
 
 
-    while(!feof(fp))
+    while(fgets(lyne,120,fp))
     {
-        if (fgets(ch, 500, fp) ==NULL)
-        {
-            if (feof(fp))
-                break;
-            else
-            {
-                puts("Blad otwarcia pliku");
-                fclose (fp);
-                return 0;
+        printf ("%s",lyne);
+
+        item = strtok(lyne,"\t");
+        record[reccount].pole = atof(item);
+
+        item = strtok(NULL,"\t");
+        record[reccount].obwod = atof(item);
+
+        item = strtok(NULL,"\t");
+        record[reccount].midx = atof(item);
+
+        item = strtok(NULL,"\t");
+        record[reccount].midy = atof(item);
+
+        item = strtok(NULL,"\t");
+        record[reccount].cienx = atof(item);
+
+        item = strtok(NULL,"\t");
+        record[reccount].cieny = atof(item);
+
+        item = strtok(NULL,"\n");
+        record[reccount].rozpietosc = atof(item);
+
+        reccount++;
 
 
-            }
-            fp=fopen(nazwa,"r");
-        }
-        printf("%s",ch);
+
+
     }
-
-
-
 
 
         if (ferror(fp))
@@ -69,7 +90,23 @@ pobierz_dane(char *nazwa)
 
 
 
+
     fclose(fp);
+
+    printf("\n Tablica \n");
+        for (k=0; k<reccount; k++) {
+                printf("Pole  %0.2f \n",record[k].pole);
+                printf("Obwod %0.2f \n",record[k].obwod);
+                printf("midx %0.2f \n",record[k].midx);
+                printf("midy %0.2f \n",record[k].midy);
+                printf("cienx %0.2f \n",record[k].cienx);
+                printf("cieny %0.2f \n",record[k].cieny);
+                printf("rozpietosc %0.2f \n",record[k].rozpietosc);
+                printf("\n");
+                }
+
+
+
     return 0;
 
 }

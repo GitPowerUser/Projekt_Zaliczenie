@@ -13,17 +13,35 @@ typedef struct
 
 } dane;
 
+typedef struct
+{
+	float min;
+	float max;
+} range;
+
 int pobierz_dane(char *nazwa, dane *wynik);
+int pobierz_zakres(char *nazwa, range *zakres);
+
 int main()
 {
 
-    char openpath[50]="test.txt.txt";
+    char openpath[50]="test.txt";
+    char rangepath[50]="zakres.txt";
     dane wynik[50];
-    printf("Podaj ˜cie¾k© do pliku\n");
+    range zakres[7];
+    int i, j;
+    printf("Podaj ËœcieÂ¾kÂ© do pliku\n");
     gets(openpath);
     printf("%s\n",openpath);
     pobierz_dane(openpath, wynik);
+    j = pobierz_zakres(rangepath, zakres);
 
+	    
+    printf("\nZakresy:");
+    for(i = 0; i < j; i++)
+    {
+    	printf("\n%d. Od:%.2f  -> Do:%.2f", i+1, zakres[i].min, zakres[i].max);
+	}
 
     return 0;
 }
@@ -43,7 +61,7 @@ pobierz_dane(char *nazwa, dane *wynik)
     fp=fopen(nazwa,"r");
     if(fp==NULL)
     {
-        printf("Bˆ¥d otwarcia pliku");
+        printf("BË†Â¥d otwarcia pliku");
         return 0;
     }
 
@@ -109,4 +127,41 @@ pobierz_dane(char *nazwa, dane *wynik)
 
     return 0;
 
+}
+
+pobierz_zakres (char *nazwa, range *zakres)
+{
+	int i, reccount;
+	char lyne[121], *item;
+	
+	FILE *fp;
+  
+    fp=fopen(nazwa,"r");
+    if(fp==NULL)
+    {
+        printf("BÂˆÄ„d otwarcia pliku");
+        return 0;
+    }
+	
+	reccount = 0;
+	
+	while (fgets(lyne,120,fp))
+	{
+		item = strtok(lyne,"\t");
+        zakres[reccount].min = atof(item);
+       
+	    item = strtok(lyne,"\t");
+        zakres[reccount].max = atof(item);
+        
+        reccount++;
+	}
+	
+	if (ferror(fp))
+    {
+		printf("Blad zapisu\n");
+        return 1;
+    }
+    
+    fclose(fp);
+    return reccount;
 }
